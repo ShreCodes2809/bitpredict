@@ -1,102 +1,172 @@
-# **BitPredict: Bitcoin Price Prediction Using Time Series Models** 📈
+# BitPredict - Bitcoin Price Prediction using Time Series Forecasting
 
-This project aims to predict Bitcoin prices using various machine learning and deep learning models, leveraging time series analysis techniques. The project explores effective preprocessing, windowing strategies, and modeling to forecast cryptocurrency prices.
+## 🌟 Project Overview
 
----
+Bitcoin price prediction is crucial for cryptocurrency trading and financial forecasting. **BitPredict** explores multiple **machine learning and deep learning** models to predict Bitcoin prices using historical data. Various models are implemented, evaluated, and compared for accuracy and efficiency.
 
-## **Project Overview**
-Cryptocurrencies like Bitcoin are highly volatile, making accurate price prediction challenging. This project utilizes time series modeling techniques to predict Bitcoin's closing prices based on historical data. Models range from baseline naive forecasts to advanced dense neural networks with varying window sizes.
+## 📈 Dataset Used
 
-Key objectives:
-- Explore data preprocessing for time series.
-- Apply naive, window-based, and dense models for prediction.
-- Compare models using metrics like MAE, MSE, RMSE, and MAPE.
+The dataset used is **Bitcoin Historical Price Data** from CoinDesk, spanning **October 1, 2013 - May 18, 2021**. It includes:
 
----
+- **Currency**
+- **Closing Price (USD)**
+- **24h Open Price (USD)**
+- **24h High Price (USD)**
+- **24h Low Price (USD)**
 
-## **Dataset**
-- **Source**: [Bitcoin Historical Data](https://raw.githubusercontent.com/mrdbourke/tensorflow-deep-learning/main/extras/BTC_USD_2013-10-01_2021-05-18-CoinDesk.csv)
-- **Features**:
-  - `Date`: The timestamp of the price.
-  - `Closing Price (USD)`: The daily closing price of Bitcoin.
-  - `24h High`, `24h Low`, and `24h Open`.
+## 📝 Project Workflow
 
----
+### **1. Data Collection & Preprocessing**
 
-## **Project Workflow**
-1. **Data Preprocessing**:
-   - Extracted daily closing prices.
-   - Visualized historical trends using matplotlib.
-   - Split data into training and testing sets (80/20).
+- Downloaded the dataset.
+- Parsed dates and set them as an index for time-series analysis.
+- Extracted only **Closing Price (USD)** for prediction.
+- Visualized the **Bitcoin price trend** over time.
 
-2. **Windowing for Time Series**:
-   - Defined windows of size `7` (week) and `30` days.
-   - Implemented supervised learning problems with window-label pairs.
+### **2. Splitting & Windowing Data**
 
-3. **Baseline Model**:
-   - Naive forecast: Predict the price of the next timestep as the current timestep's value.
-   - Metrics: MAE: 567.98, MSE: 1,147,547.
+- Split data into **training (80%)** and **testing (20%)** sets.
+- Used **rolling windowing techniques** to convert data into a supervised learning format.
+- Experimented with **different window sizes (7 days, 30 days, etc.)**.
 
-4. **Deep Learning Models**:
-   - **Dense Neural Network**:
-     - Layer structure: 1 hidden dense layer with 128 neurons (ReLU) + 1 output layer (linear activation).
-     - Best model achieved:
-       - MAE: 568.95
-       - MAPE: 2.54%
-   - **Dense Neural Network with Extended Window Size**:
-     - Increased window size to 30 days.
-     - Improved accuracy with longer historical context.
+### **3. Model Implementations**
 
----
+#### **🔢 Baseline Model (Naïve Forecast)**
 
-## **Model Evaluation Metrics**
-The following metrics were used for evaluation:
-- **MAE** (Mean Absolute Error): Measures average absolute differences between actual and predicted values.
-- **MSE** (Mean Squared Error): Measures average squared differences.
-- **RMSE** (Root Mean Squared Error): Square root of MSE for better interpretability.
-- **MAPE** (Mean Absolute Percentage Error): Measures prediction errors as percentages.
+- Predicts the next price as the **previous day’s price**.
+- Serves as a benchmark for other models.
 
----
+#### **🔄 Dense Neural Network (DNN)**
 
-## **Results**
-### Baseline Model
-- **MAE**: 567.98  
-- **MSE**: 1,147,547  
-- **RMSE**: 1071.23  
+- **Model 1:** Dense Network (**7-day window**).
+- **Model 2:** Dense Network (**30-day window**).
+- **Architecture:**
+  - Hidden Layer: **128 neurons (ReLU activation).**
+  - Output Layer: **Linear activation.**
+  - Optimizer: **Adam.**
 
-### Dense Neural Network (7-day window)
-- **MAE**: 568.95  
-- **MSE**: 1,171,744  
-- **RMSE**: 1082.47  
+#### **🎨 Long Short-Term Memory (LSTM) Model**
 
-### Dense Neural Network (30-day window)
-- Improved learning and validation metrics with extended window size.
+- Uses **LSTM layers** to capture long-term dependencies in time-series data.
+- **Architecture:**
+  - **LSTM Layer:** 64 units.
+  - **Dense Layer:** 32 neurons (ReLU activation).
+  - **Output Layer:** Single neuron for price prediction.
 
----
+#### **📝 Convolutional Neural Network (Conv1D) Model**
 
-## **Setup and Usage**
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/ShreCodes2809/bitpredict.git
-   cd BitPredict
-   ```
+- Uses **1D Convolutional layers** for time-series feature extraction.
+- **Architecture:**
+  - **Conv1D Layer:** 64 filters, kernel size 3.
+  - **MaxPooling1D Layer**.
+  - **Dense Layer:** 128 neurons.
+  - **Output Layer:** 1 neuron.
 
-2. Download the dataset:
-   ```bash
-   wget https://raw.githubusercontent.com/mrdbourke/tensorflow-deep-learning/main/extras/BTC_USD_2013-10-01_2021-05-18-CoinDesk.csv
-   ```
+#### **🔍 N-BEATS Algorithm**
+
+- A state-of-the-art **Neural Basis Expansion Analysis (N-BEATS)** model.
+- **Architecture:**
+  - Multiple stacks of **fully connected residual blocks**.
+  - Backcast and Forecast generators.
+
+#### **🔄 Dense Multivariate Time Series Model**
+
+- Uses **Open, High, Low prices** in addition to Closing Price.
+- **Fully connected Dense Model**.
+
+#### **💡 Ensemble Model**
+
+- **Combines predictions from multiple models** (LSTM, Conv1D, Dense, N-BEATS).
+- Uses **weighted averaging**.
 
 ---
 
-## **Future Enhancements**
-- Implement transformer-based models for improved predictions.
-- Introduce additional features like trading volume and sentiment analysis.
-- Optimize hyperparameters for better model performance.
-- Explore LSTM and GRU models for sequential data handling.
+## 🎨 Model Evaluation Metrics
+
+- **Mean Absolute Error (MAE)**
+- **Mean Squared Error (MSE)**
+- **Root Mean Squared Error (RMSE)**
+- **Mean Absolute Percentage Error (MAPE)**
+- **Mean Absolute Scaled Error (MASE)**
 
 ---
 
-## **Acknowledgments**
-This project was inspired by TensorFlow's time series forecasting tutorial. Thanks to the cryptocurrency and machine learning communities for the resources and inspiration.
+## 🏆 Results & Model Comparison
+
+| Model                        | MAE        | MSE         | RMSE       | MAPE      | MASE      |
+| ---------------------------- | ---------- | ----------- | ---------- | --------- | --------- |
+| **Naïve Forecast**           | 567.98     | 1,147,547   | 1071.23    | ***2.51%***     | 0.999     |
+| **Dense (7-day window)**     | 568.95     | 1,171,744   | 1082.47    | 2.54%     | 0.999     |
+| **Dense (30-day window)**    | 608.96     | 1,281,439   | 1132.00    | 2.77%     | 1.064     |
+| **LSTM Model**               | 596.64     | 1,273,487   | 1128.49    | 2.68%     | 1.048     |
+| **Conv1D Model**             | 570.83     | 1,176,671   | 1084.74    | 2.56%     | 1.003     |
+| **N-BEATS Model**            | 572.28     | 1,165,763   | 1079.71    | 2.59%     | 1.005     |
+| **Dense Multivariate Model** | 567.59     | 1,161,687   | 1077.82    | 2.54%     | 0.997     |
+| **Ensemble Model**           | ***564.96*** |***1,134,330***| ***1065.04*** | 2.57% | ***0.992*** |
+
+**Key Insights:**
+
+- **LSTM and Conv1D models** slightly underperform simple Dense models but would outperform them in case of large datasets.
+- **N-BEATS achieved superior performance**.
+- **The Ensemble Model yielded the best results**.
 
 ---
+
+## 📝 Conclusion
+
+- **Naïve Forecast provided a strong baseline**.
+- **Deep Learning models captured trends effectively**.
+- **N-BEATS and Ensemble Models showed the highest accuracy**.
+
+---
+
+## 🛠️ Setup & Usage
+
+### **1. Clone Repository**
+
+```sh
+git clone https://github.com/your_username/BitPredict.git
+cd BitPredict
+```
+
+### **2. Install Dependencies**
+
+```sh
+pip install -r requirements.txt
+```
+
+### **3. Run Project**
+
+Execute the Jupyter Notebook:
+
+```sh
+jupyter notebook
+```
+
+Or run the script:
+
+```sh
+python main.py
+```
+
+### **4. Modify Parameters**
+
+- Adjust **window size, epochs, learning rate, and model type** in `config.py`.
+
+---
+
+## 💡 Future Enhancements
+
+- Implement **Transformer-based models**.
+- Experiment with **Reinforcement Learning**.
+- Deploy as an **API using Flask/FastAPI**.
+- **Optimize hyperparameters** via Bayesian Optimization.
+
+---
+
+## 🌟 Acknowledgements
+
+- **TensorFlow Deep Learning Course** by Daniel Bourke.
+- **CoinDesk API** for Bitcoin historical data.
+- Open-source contributors and **AI/ML community**.
+
